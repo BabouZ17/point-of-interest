@@ -5,7 +5,7 @@
 <h2>Contact</h2>
 <div class="container">
     <div class="box">
-        <form action="{% url 'basis:contact' %}" class="form-inline" method="post">
+        <form action="{% url 'basis:contact' %}" method="post">
             {% csrf_token %}
             {% for field in form.visible_fields %}
             <div class="form-group">
