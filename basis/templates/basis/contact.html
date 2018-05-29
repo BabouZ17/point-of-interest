@@ -1,0 +1,25 @@
+{% extends 'basis/base.html' %}
+{% load widget_tweaks %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<h2>Contact</h2>
+<div class="container">
+    <div class="box">
+        <form action="{% url 'basis:contact' %}" class="form-inline" method="post">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+            <div class="form-group">
+                <label for={{ field.name }}>{{ field.label }}</label>
+                <div class="col text-center">
+                    {% render_field field style="border-radius: 5px;" placeholder=field.initial aria-describedby=field.name %}
+                </div>
+                <small id={{ field.name }} class="form-text text-muted">{{ field.help_text }}</small>
+            </div>
+            {% endfor %}
+            <div class="col text-center">
+                <button type="submit" class="btn btn-sm btn-success">Send your message !</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
