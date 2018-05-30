@@ -2,5 +2,34 @@
 {% block title %}Welcome{% endblock %}
 {% block header %}{% endblock %}
 {% block content %}
-    {{ content }}
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="map">
+                    Map
+                </div>
+            </div>
+            <div class="col" id="search">
+                Search
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block google-maps %}
+<script>
+    var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.397, lng: 150.644},
+            zoom: 8
+        });
+    var search = document.getElementById('search');
+    var sentence = document.createElement('p');
+    var content = document.createTextNode('dtc');
+    sentence.appendChild(content);
+    search.appendChild(sentence);
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBohAd8ifpuK2DlHxoKjursG0XaNBjhVC0&callback=initMap" async defer></script>
 {% endblock %}

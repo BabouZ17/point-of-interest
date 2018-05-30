@@ -16,7 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <title>{% block title %}Welcome Home{% endblock %}</title>
+    <title>{% block title %}Map{% endblock %}</title>
 </head>
 <body>
   {% block header %}
@@ -25,7 +25,7 @@
 
   {% block nav %}
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #99ffcc;">
-     <a class="navbar-brand" href="#">
+     <a class="navbar-brand" href="{% url 'basis:home' %}">
          <img src="https://cdn.iconscout.com/public/images/icon/free/png-256/django-community-company-brand-logo-3ce99738980727c8-256x256.png" width="30" height="30" alt="">
      </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -36,19 +36,29 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="navbar-nav mr-auto">
         <a class="nav-item nav-link" href="{% url 'basis:home' %}" style="color: #092e20;">Map</a>
-        <a class="nav-item nav-link" href="#" style="color: #092e20;">Board</a>
+        <a class="nav-item nav-link" href="{% url 'basis:board' %}" style="color: #092e20;">Board</a>
         <a class="nav nav-item nav-link" href="{% url 'basis:contact' %}" style="color: #092e20;">Contact</a>
       </div>
+      <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
     </div>
   </nav>
   {% endblock %}
-  <hr />
-  {% if messages.count != 0 %}
+
+  {% if messages %}
+    <hr />
     <div class="container">
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
+        <div class="row">
+            <div class="col text-center">
+                {% for message in messages %}
+                    {{ message }
+                {% endfor %}
+            </div>
+        </div>
     </div>
+    <hr />
   {% endif %}
   {% block content %}
   {% endblock %}
@@ -57,8 +67,11 @@
 <footer>
   <div class="card card-inverse card-success">
       <div class="card-block">
-          <p class="text-center">Developed By Babou.</p>
-          <p class="text-center style="color: #092e20;><strong>Powered by Django.</strong></p>
+          <p class="text-center" style="color: #092e20;">Developed By Babou.</p>
+          <p class="text-center" style="color: #092e20;"><strong>Powered by Django.</strong></p>
       </div>
   </div>
 </footer>
+{% block google-maps %}
+<!-- For displaying the google map -->
+{% endblock %}

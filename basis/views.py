@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
-from .models import *
+from .models import Country, Category
 from .forms import ContactForm
 
 # Create your views here.
@@ -46,3 +46,29 @@ def contact(request):
     else:
         messages.error(request, 'Error in your request ')
     return HttpResponseRedirect(reverse('basis:contact'))
+
+def board(request):
+    """
+    Return the board view
+    """
+    return render(request, 'basis/board.html')
+
+def categories(request):
+    """
+    Return the categories
+    """
+    categories = Category.objects.all()
+    context = {
+        "categories": categories
+    }
+    return render(request, 'basis/categories.html', context)
+    
+def countries(request):
+    """
+    Return the countries
+    """
+    countries = Country.objects.all()
+    context = {
+        "countries": countries
+    }
+    return render(request, 'basis/countries.html', context)

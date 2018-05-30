@@ -1,0 +1,14 @@
+{% extends 'basis/base.html' %}
+{% block title %}Countries{% endblock %}
+{% block content %}
+<h2>Countries</h2>
+<div class="container">
+    <div class="box">
+        
+        {{ countries }}
+        {% for country in countries %}
+            <p>{{ countrie.name }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
