@@ -1,14 +1,30 @@
 {% extends 'basis/base.html' %}
 {% block title %}Countries{% endblock %}
 {% block content %}
-<h2>Countries</h2>
-<div class="container">
-    <div class="box">
-        
-        {{ countries }}
-        {% for country in countries %}
-            <p>{{ countrie.name }}</p>
-        {% endfor %}
+<div class="container-fluid">
+    <h2>Dashboard</h2>
+    <div class="row">
+        <div class="col col-sm">
+            <div class="btn-group-vertical">
+                {% for country in countries %}
+                    <button type="button" id="{{ country.name }}" class="btn btn-success" onclick="display(this.id)">{{ country.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col col-lg">
+            <p id="test">Test</p>
+        </div>
     </div>
 </div>
+{% endblock %}
+{% block javascript %}
+<script>
+
+function display(id){
+    document.getElementById('test').textContent = id;
+}
+
+object.addEventListener("click", display);
+
+</script>
 {% endblock %}

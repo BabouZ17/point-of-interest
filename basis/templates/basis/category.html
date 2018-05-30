@@ -1,0 +1,28 @@
+{% extends 'basis/base.html' %}
+{% block title %}{{ category.title }}{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Category</h2>
+    <div class="box">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">{{ category.title }}
+                 <span class="badge badge-primary badge-pill">{{ category.pointofinterests_set.all.count }}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% if category.point_of_interest.all.count != 0 %}
+    <hr />
+    <div class="container">
+        <h2>Points of interest</h2>
+        <div class="box">
+            <ul class="list-group">
+                {% for poi in category.point_of_interest.all|slice:":10" %}
+                    <li class="list-group-item">{{ poi.title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

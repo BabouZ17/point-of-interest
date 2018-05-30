@@ -4,9 +4,11 @@
 <h2>Categories</h2>
 <div class="container">
     <div class="box">
-        <ul>
+        <ul class="list-group">
         {% for category in categories %}
-            <li>{{ category.title }}</li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">{{ category.title }}
+                <span class="badge badge-primary badge-pill"><a href="{% url 'basis:category_pois' category.id %}">{{ category.point_of_interest.all.count }}</a></span>
+            </li>
         {% endfor %}
         </ul>
     </div>

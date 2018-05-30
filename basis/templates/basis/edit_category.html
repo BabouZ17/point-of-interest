@@ -1,0 +1,30 @@
+{% extends 'basis/base.html' %}
+{% load widget_tweaks %}
+{% block title %}Editing Category{% endblock %}
+{% block content %}
+<h2>
+    {% if category %}
+        {{ category.title }}
+    {% else %}
+        New Category
+    {% endif %}
+</h2>
+<div class="container">
+    <div class="box">
+        <form action="{% url 'basis:edit_category' category.id %}" method="post">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+            <div class="form-group">
+                <div class="col text-center">
+                    <label for={{ field.name }}>{{ field.label }}:</label>
+                    {% render_field field style="border-radius: 5px;" placeholder=field.initial %}
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col text-center">
+                <button type="submit" class="btn btn-sm btn-success">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

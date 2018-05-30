@@ -1,0 +1,77 @@
+{% extends 'basis/base.html' %}
+{% block title %}POI{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Points of interest</h2>
+    <table class="table table-sm table-hover table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Category</th>
+                <th scope="col">Author</th>
+                <th scope="col">Zone</th>
+                <th scope="col">Address</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Link</th>
+                <th scope="col">Comments<th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for poi in pois %}
+            <tr>
+                <td>{{ poi.id }}</td>
+                <td>{{ poi.title }}</td>
+                <td>{{ poi.description }}</td>
+                <td>
+                    <ul>
+                        {% for category in poi.category_set.all %}
+                            <li>{{ category.title }}</td>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>{{ poi.author }}</td>
+                <td>{{ poi.zone.name }}</td>
+                <td>{{ poi.address }}</td>
+                <td>{{ poi.latitude }}</td>
+                <td>{{ poi.longitude }}</td>
+                <td>{{ poi.link }}</td>
+                <td>
+                {% if poi.comment_set.all.count != 0 %}
+                    {{ poi.comment_set.all.count }}
+                {% else %}
+                    None
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr />
+</div>
+<div class="container">
+    <h2>Comments</h2>
+    <table class="table table-sm table-hover table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Author</th>
+                <th scope="col">Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for poi in pois %}
+                {% for comment in poi.comment_set.all %}
+                    <tr>
+                        <td>{{ comment.id }}</td>
+                        <td>{{ comment.user }}</td>
+                        <td>{{ comment.content }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import ModelForm
+from .models import Country, Zone, PointOfInterest, Comment, Category
 
 class ContactForm(forms.Form):
     first_name = forms.CharField(
@@ -32,3 +34,35 @@ class ContactForm(forms.Form):
         max_length=500,
         required=True
         )
+
+class CountryForm(ModelForm):
+    """
+    Country Form
+    """
+    class Meta:
+        model = Country
+        fields = ['name']
+
+class ZoneForm(ModelForm):
+    """
+    Zone Form
+    """
+    class Meta:
+        model = Zone
+        fields = ['name', 'country', 'tag']
+
+class PointOfInterestForm(ModelForm):
+    """
+    PointOfInterest Form
+    """
+    class Meta:
+        model = PointOfInterest
+        fields = ['title', 'description', 'latitude', 'longitude', 'address', 'link', 'zone', 'author']
+
+class CategoryForm(ModelForm):
+    """
+    Category Form
+    """
+    class Meta:
+        model = Category
+        fields = ['title', 'point_of_interest']

@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col text-center">
                 {% for message in messages %}
-                    {{ message }
+                    {{ message }}
                 {% endfor %}
             </div>
         </div>
@@ -74,4 +74,6 @@
 </footer>
 {% block google-maps %}
 <!-- For displaying the google map -->
+{% endblock %}
+{% block javascript %}
 {% endblock %}

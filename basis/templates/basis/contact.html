@@ -2,8 +2,8 @@
 {% load widget_tweaks %}
 {% block title %}Contact{% endblock %}
 {% block content %}
-<h2>Contact</h2>
 <div class="container">
+    <h2>Contact</h2>
     <div class="box">
         <form action="{% url 'basis:contact' %}" method="post">
             {% csrf_token %}

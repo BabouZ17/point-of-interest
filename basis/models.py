@@ -26,6 +26,7 @@ class Country(models.Model):
     """
     name = models.CharField(max_length=50, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         """
@@ -40,6 +41,7 @@ class Zone(models.Model):
     name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
     tag = models.CharField(max_length=5,
         choices=[(tag, tag.value) for tag in CountryTag]
         , default='null')
@@ -55,6 +57,7 @@ class PointOfInterest(models.Model):
     PointOfInterest Model
     """
     title = models.CharField(max_length=200, unique=True)
+    description = models.CharField(max_length=1000, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     latitude = models.FloatField(null=False)
@@ -77,6 +80,7 @@ class Category(models.Model):
     title = models.CharField(max_length=100, unique=True)
     point_of_interest = models.ManyToManyField(PointOfInterest)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         """
@@ -90,6 +94,7 @@ class Comment(models.Model):
     """
     content = models.CharField(max_length=500, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
     point_of_interest = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_moderated = models.BooleanField(default=False)

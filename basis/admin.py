@@ -19,6 +19,7 @@ class PointOfInterestAdmin(admin.ModelAdmin):
     verbose_name = "PoI"
     verbose_name_plural = "PoIs"
     search_fields = ['title', 'category']
+    
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
