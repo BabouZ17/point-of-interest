@@ -1,13 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
+from django.core import serializers
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 
-from .models import Country, Category, PointOfInterest
+from .models import Country, Category, PointOfInterest, Zone
 from .forms import ContactForm, CountryForm, CategoryForm, PointOfInterestForm, ZoneForm
 
 # Create your views here.
@@ -49,14 +50,47 @@ def contact(request):
         messages.error(request, 'Error in your request ')
     return HttpResponseRedirect(reverse('basis:contact'))
 
+def search(request):
+    """
+    Find a result for the seached item
+    """
+    result = ""
+    if request.method == "POST":
+        result = request.POST.get('search')
+        ### POI ###
+        items = PointOfInterest.objects.filter(title__contains=result)[:5]
+        if items.count() != 0:
+            search = items
+        else:
+            ### Category ###
+            items = Category.objects.filter(title__contains=result)[:5]
+            if items.count() != 0:
+                search = items
+            else:
+                ### Comment ###
+                items = Comment.objects.filter(content__contains=result)[:5]
+                if items.count() != 0:
+                    search = items
+    return render(request, 'basis/home.html')
+
 def board(request):
     """
     Return the board view
     """
     if request.method == "GET":
         countries = Country.objects.all()
+        zones = Zone.objects.all()
+        pois = PointOfInterest.objects.all()
+        countries_json = serializers.serialize("json", countries)
+        zones_json = serializers.serialize("json", zones)
+        pois_json = serializers.serialize("json", pois)
         context = {
-            "countries": countries
+            "countries": countries,
+            "countries_json": countries_json,
+            "zones": zones,
+            "zones_json": zones_json,
+            "pois": pois,
+            "pois_json": pois_json
         }
         return render(request, 'basis/board.html', context)
     elif request.method == "POST":

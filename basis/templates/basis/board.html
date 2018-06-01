@@ -4,15 +4,30 @@
 <div class="container-fluid">
     <h2>Dashboard</h2>
     <div class="row">
-        <div class="col col-sm">
+        <div class="col-xs">
             <div class="btn-group-vertical">
                 {% for country in countries %}
-                    <button type="button" id="{{ country.name }}" class="btn btn-success" onclick="display(this.id)">{{ country.name }}</button>
+                    {% if country.zone_set.all.count == 0 %}
+                        <button type="button" id="{{ country.pk }}" class="btn btn-outline-secondary" onclick="display_country(this.id)">{{ country.name }}</button>
+                    {% else %}
+                        <div class="btn-group dropright">
+                            <button type="button" id="{{ country.pk }}" class="btn btn-outline-secondary" onclick="display_country(this.id)">
+                                {{ country.name }}
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropright</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                {% for zone in country.zone_set.all %}
+                                    <a href="#" id="{{ zone.id }}" class="dropdown-item" onclick="display_zone(this.id)">{{ zone.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
-        <div class="col col-lg">
-            <p id="test">Test</p>
+        <div class="col-lg text-center" id="container">
         </div>
     </div>
 </div>
@@ -20,8 +35,40 @@
 {% block javascript %}
 <script>
 
-function display(id){
-    document.getElementById('test').textContent = id;
+var countries =  {{ countries_json|safe }};
+var zones = {{ zones_json|safe }};
+var pois = {{ pois_json|safe }};
+
+function found_country(id, objects){
+    var country = null;
+    for(var i = 0; i < objects.length; i++){
+        if(objects[i].pk == id){
+            country = objects[i];
+        }
+    }
+    return country;
+}
+
+function zone_pois(zone, pois){
+    pois_table = []
+    for(var i = 0; i < pois.length; i++){
+        if(zone.id == pois[i].zone){
+            console.log(pois[i]);
+            pois_table.push(pois[i]);
+        }
+    }
+}
+
+function display_zone(id){
+    console.log(id);
+}
+
+function display_country(id){
+    var country = null;
+    var container = document.getElementById('container');
+    country = found_country(id, countries);
+    var html = "<h5 style='color: #092e20;'>" + country.fields.name + "</h5>";
+    container.innerHTML = html;
 }
 
 object.addEventListener("click", display);
